@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  python:
+    image: python_tp2
+    build: .
+    container_name: python
+    environment:
+      - DB_HOST=db
+    ports:
+      - "7000:8888"
+    volumes: 
+      - ./app/main.py:/app/main.py
+
+  db:
+    image: mysql 
+    container_name: db  
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./app/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_ARBITRARY=1
+
